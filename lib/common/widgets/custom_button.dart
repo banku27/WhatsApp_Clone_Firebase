@@ -21,7 +21,9 @@ class CustomButton extends StatelessWidget {
         ),
       ),
       style: ElevatedButton.styleFrom(
-          primary: tabColor, minimumSize: const Size(double.infinity, 50)),
+        primary: tabColor,
+        minimumSize: const Size(double.infinity, 50),
+      ),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:whatsapp_ui/colors.dart';
 import 'package:whatsapp_ui/common/widgets/custom_button.dart';
@@ -12,11 +13,22 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final phoneController = TextEditingController();
+  Country? country;
 
   @override
   void dispose() {
     super.dispose();
     phoneController.dispose();
+  }
+
+  void pickCountry() {
+    showCountryPicker(
+        context: context,
+        onSelect: (Country _country) {
+          setState(() {
+            country = _country;
+          });
+        });
   }
 
   @override
@@ -38,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 10,
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: pickCountry,
               child: const Text('Pick Country'),
             ),
             const SizedBox(
@@ -46,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             Row(
               children: [
-                Text('+91'),
+                if (country != null) Text('+${country!.phoneCode}'),
                 const SizedBox(
                   width: 10,
                 ),
@@ -65,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(
               width: 90,
               child: CustomButton(text: 'NEXT', onPressed: () {}),
-            )
+            ),
           ],
         ),
       ),

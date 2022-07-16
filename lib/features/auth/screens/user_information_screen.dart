@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_ui/common/utils/utils.dart';
+import 'package:whatsapp_ui/features/auth/controller/auth_controller.dart';
 
 class UserInformationScreen extends ConsumerStatefulWidget {
   static const String routeName = '/user-information';
@@ -26,6 +27,16 @@ class _UserInformationScreenState extends ConsumerState<UserInformationScreen> {
   void selectImage() async {
     image = await pickImageFromGallery(context);
     setState(() {});
+  }
+
+  void storeUserData() async {
+    String name = nameController.text.trim();
+
+    if (name.isNotEmpty) {
+      ref
+          .read(authControllerProvider)
+          .saveUserDataToFirebase(context, name, image);
+    }
   }
 
   @override
@@ -69,7 +80,8 @@ class _UserInformationScreenState extends ConsumerState<UserInformationScreen> {
                     ),
                   ),
                 ),
-                IconButton(onPressed: () {}, icon: const Icon(Icons.done))
+                IconButton(
+                    onPressed: storeUserData, icon: const Icon(Icons.done))
               ],
             )
           ],

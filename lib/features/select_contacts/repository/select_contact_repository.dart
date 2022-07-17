@@ -4,6 +4,7 @@ import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_ui/common/utils/utils.dart';
 import 'package:whatsapp_ui/models/user_model.dart';
+import 'package:whatsapp_ui/screens/mobile_chat_screen.dart';
 
 final selectContactsRepositoryProvider = Provider(
   (ref) => SelectContactRepository(
@@ -41,6 +42,10 @@ class SelectContactRepository {
             selectedContact.phones[0].number.replaceAll(' ', '');
         if (selectedPhoneNum == userData.phoneNumber) {
           isFound = true;
+          Navigator.pushNamed(context, MobileChatScreen.routeName, arguments: {
+            'name': userData.name,
+            'uid': userData.uid,
+          });
         }
       }
       if (!isFound) {

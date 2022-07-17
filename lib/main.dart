@@ -22,15 +22,15 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Whatsapp Clone ',
-        theme: ThemeData.dark().copyWith(
-            scaffoldBackgroundColor: backgroundColor,
-            appBarTheme: const AppBarTheme(
-              color: appBarColor,
-            )),
-        onGenerateRoute: (settings) => generateRoute(settings),
-        home: ref.watch(userDataAuthProvider).when(
+      debugShowCheckedModeBanner: false,
+      title: 'Whatsapp Clone ',
+      theme: ThemeData.dark().copyWith(
+          scaffoldBackgroundColor: backgroundColor,
+          appBarTheme: const AppBarTheme(
+            color: appBarColor,
+          )),
+      onGenerateRoute: (settings) => generateRoute(settings),
+      home: ref.watch(userDataAuthProvider).when(
             data: (user) {
               if (user == null) {
                 return const LandingScreen();
@@ -38,8 +38,12 @@ class MyApp extends ConsumerWidget {
               return const MobileLayoutScreen();
             },
             error: (err, trace) {
-              return ErrorScreen(error: err.toString());
+              return ErrorScreen(
+                error: err.toString(),
+              );
             },
-            loading: () => const Loader()));
+            loading: () => const Loader(),
+          ),
+    );
   }
 }

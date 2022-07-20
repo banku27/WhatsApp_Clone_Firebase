@@ -52,14 +52,15 @@ class ChatRepository {
         .doc(recieverUserId)
         .set(senderChatContact.toMap());
 
-    void _saveMessageToMessageSubCollection(
-        {required recieverUserId,
-        required String text,
-        required DateTime timeSent,
-        required String messageId,
-        required String username,
-        required String receiverUsername,
-        required MessageEnum messageType,}) async {}
+    void _saveMessageToMessageSubCollection({
+      required recieverUserId,
+      required String text,
+      required DateTime timeSent,
+      required String messageId,
+      required String username,
+      required String receiverUsername,
+      required MessageEnum messageType,
+    }) async {}
   }
 
   void sendTextMessage({
@@ -86,7 +87,7 @@ class ChatRepository {
         timeSent,
         receiverUserId,
 
-        _saveMessageToMessageSubCollection();
+        // _saveMessageToMessageSubCollection();
       );
     } catch (e) {
       showSnackBar(context: context, content: e.toString());

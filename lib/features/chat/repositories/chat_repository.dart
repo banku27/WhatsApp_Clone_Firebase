@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:whatsapp_ui/common/utils/utils.dart';
+import 'package:whatsapp_ui/models/chat_contact_model.dart';
 import 'package:whatsapp_ui/models/user_model.dart';
 
 class ChatRepository {
@@ -19,7 +20,16 @@ class ChatRepository {
     String text,
     DateTime timeSent,
     String recieverUserId,
-  ) {}
+  ) async {
+    // users-> reciever user id-> chats -> current user id -> set data   fisplaying for other user
+    var recieverChatContact = ChatContact(
+        name: senderUserData.name,
+        profilePic: senderUserData.profilePic,
+        contactId: senderUserData.uid,
+        timeSent: timeSent,
+        lastMessage: text);
+    // users-> current user id-> chats -> reciever user id -> set data   displaying for us
+  }
 
   void sendTextMessage({
     required BuildContext context,
@@ -37,9 +47,6 @@ class ChatRepository {
           await firestore.collection('users').doc(receiverUserId).get();
 
       receiverUserData = UserModel.fromMap(userDataMap.data()!);
-
-      // users-> reciever user id-> chats -> current user id -> set data
-
     } catch (e) {
       showSnackBar(context: context, content: e.toString());
     }

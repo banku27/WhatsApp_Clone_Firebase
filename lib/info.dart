@@ -11,7 +11,7 @@ const info = [
     'message': 'Hello, whats up',
     'time': '2:25 pm',
     'profilePic':
-        'https://decider.com/wp-content/uploads/2019/06/stranger-things-max.jpg?quality=75&strip=all',
+        'https://cdn.i-scmp.com/sites/default/files/styles/portrait/public/d8/images/methode/2020/11/19/3559451a-2a1e-11eb-bf26-f2b76f37a526_image_hires_122603.jpg?itok=4h76cUAG&v=1605759969',
   },
   {
     'name': 'Abhishek Parihar',
@@ -39,7 +39,7 @@ const info = [
     'message': 'Yo!!!!! Long time, no see!?',
     'time': '9:53 am',
     'profilePic':
-        'https://cdn.i-scmp.com/sites/default/files/styles/portrait/public/d8/images/methode/2020/11/19/3559451a-2a1e-11eb-bf26-f2b76f37a526_image_hires_122603.jpg?itok=4h76cUAG&v=1605759969',
+        'https://decider.com/wp-content/uploads/2019/06/stranger-things-max.jpg?quality=75&strip=all',
   },
   {
     'name': 'Aman',
@@ -57,7 +57,7 @@ const info = [
   },
   {
     'name': 'Shruti',
-    'message': 'Lets Code!',
+    'message': 'Lets Meet!',
     'time': '4:56 am',
     'profilePic':
         'https://images.unsplash.com/photo-1630305131239-c8df91783f10?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y3V0ZSUyMGJhYnl8ZW58MHx8MHx8&w=1000&q=80',

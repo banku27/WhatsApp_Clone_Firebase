@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:whatsapp_ui/common/widgets/loader.dart';
@@ -35,7 +36,12 @@ class _ChatListState extends ConsumerState<ChatList> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Loader();
           }
+          SchedulerBinding.instance.addPostFrameCallback((_) {
+            messageController
+                .jumpTo(messageController.position.maxScrollExtent);
+          });
           return ListView.builder(
+            controller: messageController,
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
               final messageData = snapshot.data![index];

@@ -36,6 +36,8 @@ class _ChatListState extends ConsumerState<ChatList> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Loader();
           }
+          // for automatic scrolling whenever new msgs comes
+
           SchedulerBinding.instance.addPostFrameCallback((_) {
             messageController
                 .jumpTo(messageController.position.maxScrollExtent);

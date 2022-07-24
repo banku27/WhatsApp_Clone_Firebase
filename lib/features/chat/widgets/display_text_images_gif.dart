@@ -4,6 +4,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 import 'package:whatsapp_ui/common/enums/message_enum.dart';
+import 'package:whatsapp_ui/features/chat/widgets/video_player_item.dart';
 
 class DisplayTextImageGIF extends StatelessWidget {
   final String message;
@@ -23,8 +24,10 @@ class DisplayTextImageGIF extends StatelessWidget {
               fontSize: 16,
             ),
           )
-        : CachedNetworkImage(
-            imageUrl: message,
-          );
+        : type == MessageEnum.video
+            ? VideoPlayerItem(videoUrl: message)
+            : CachedNetworkImage(
+                imageUrl: message,
+              );
   }
 }

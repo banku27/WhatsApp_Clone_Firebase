@@ -137,7 +137,7 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(
+          padding: const EdgeInsets.only(
             bottom: 8,
             right: 2,
             left: 2,

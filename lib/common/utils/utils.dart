@@ -42,3 +42,9 @@ Future<File?> pickVideoFromGallery(BuildContext context) async {
   }
   return video;
 }
+
+void pickGIF(BuildContext context) async {
+  try {} catch (e) {
+    showSnackBar(context: context, content: e.toString());
+  }
+}

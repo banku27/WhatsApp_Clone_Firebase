@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -203,6 +202,11 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
                       _messageController.text =
                           _messageController.text + emoji.emoji;
                     });
+                    if (!isShowSendButton) {
+                      setState(() {
+                        isShowSendButton = true;
+                      });
+                    }
                   }),
                 ),
               )

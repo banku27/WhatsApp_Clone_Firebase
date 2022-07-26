@@ -74,12 +74,20 @@ class ChatController {
     String gifUrl,
     String receiverUserId,
   ) {
+    // https://i.giphy.com/media/fn2kee68mheQgMtz1k/200.gif
+
+    int gifUrlPartIndex = gifUrl.lastIndexOf('-') + 1;
+    String gifUrlPart = gifUrl.substring(gifUrlPartIndex);
+
+    String newgifUrl = 'https://i.giphy.com/media/$gifUrlPart/200.gif';
+
     ref.read(userDataAuthProvider).whenData(
           (value) => chatRepository.sendGIFMessage(
-              context: context,
-              gifUrl: gifUrl,
-              receiverUserId: receiverUserId,
-              senderUser: value!),
+            context: context,
+            gifUrl: newgifUrl,
+            receiverUserId: receiverUserId,
+            senderUser: value!,
+          ),
         );
   }
 }

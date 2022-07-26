@@ -47,7 +47,7 @@ dependencies:
   cached_network_image: ^3.2.1
   cached_video_player: ^2.0.3
   emoji_picker_flutter: ^1.3.0
-  enough_giphy_flutter: ^0.2.1
+  enough_giphy_flutter: ^0.3.0
   
 
 dev_dependencies:

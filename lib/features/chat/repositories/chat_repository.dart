@@ -228,7 +228,7 @@ class ChatRepository {
           contactMsg = '📷 Video';
           break;
         case MessageEnum.audio:
-          contactMsg = '📷 Audio';
+          contactMsg = '🔊 Audio';
           break;
         case MessageEnum.gif:
           contactMsg = 'GIF';

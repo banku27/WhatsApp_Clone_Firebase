@@ -52,6 +52,7 @@ class ChatController {
             messageReply: messageReply,
           ),
         );
+    ref.read(messageReplyProvider.state).update((state) => null);
   }
 
   void sendFileMessage(
@@ -72,6 +73,7 @@ class ChatController {
             messageReply: messageReply,
           ),
         );
+    ref.read(messageReplyProvider.state).update((state) => null);
   }
 
   void sendGIFMessage(
@@ -95,5 +97,6 @@ class ChatController {
             messageReply: messageReply!,
           ),
         );
+    ref.read(messageReplyProvider.state).update((state) => null);
   }
 }

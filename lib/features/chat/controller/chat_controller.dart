@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_ui/common/enums/message_enum.dart';
+import 'package:whatsapp_ui/common/providers/message_reply_provider.dart';
 import 'package:whatsapp_ui/features/auth/controller/auth_controller.dart';
 
 import 'package:whatsapp_ui/features/chat/repositories/chat_repository.dart';
@@ -41,12 +42,14 @@ class ChatController {
     String text,
     String recieverUserId,
   ) {
+    final messageReply = ref.read(messageReplyProvider);
     ref.read(userDataAuthProvider).whenData(
           (value) => chatRepository.sendTextMessage(
             context: context,
             text: text,
             receiverUserId: recieverUserId,
             senderUser: value!,
+            messageReply: messageReply,
           ),
         );
   }
@@ -57,6 +60,7 @@ class ChatController {
     String recieverUserId,
     MessageEnum messageEnum,
   ) {
+    final messageReply = ref.read(messageReplyProvider);
     ref.read(userDataAuthProvider).whenData(
           (value) => chatRepository.sendFileMessage(
             context: context,
@@ -65,6 +69,7 @@ class ChatController {
             senderUserData: value!,
             messageEnum: messageEnum,
             ref: ref,
+            messageReply: messageReply,
           ),
         );
   }
@@ -75,7 +80,7 @@ class ChatController {
     String receiverUserId,
   ) {
     // https://i.giphy.com/media/fn2kee68mheQgMtz1k/200.gif
-
+    final messageReply = ref.read(messageReplyProvider);
     int gifUrlPartIndex = gifUrl.lastIndexOf('-') + 1;
     String gifUrlPart = gifUrl.substring(gifUrlPartIndex);
 
@@ -87,6 +92,7 @@ class ChatController {
             gifUrl: newgifUrl,
             receiverUserId: receiverUserId,
             senderUser: value!,
+            messageReply: messageReply!,
           ),
         );
   }

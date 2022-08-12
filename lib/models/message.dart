@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:whatsapp_ui/common/enums/message_enum.dart';
 
 class Message {

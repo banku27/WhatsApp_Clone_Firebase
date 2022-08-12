@@ -1,0 +1,114 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_contacts/flutter_contacts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uuid/uuid.dart';
+import 'package:whatsapp_ui/common/repositories/common_firebase_storage_repository.dart';
+import 'package:whatsapp_ui/common/utils/utils.dart';
+import 'package:whatsapp_ui/models/status_model.dart';
+import 'package:whatsapp_ui/models/user_model.dart';
+
+final statusRepositoryProvider = Provider(
+  (ref) => StatusRepository(
+      auth: FirebaseAuth.instance,
+      firestore: FirebaseFirestore.instance,
+      ref: ref),
+);
+
+class StatusRepository {
+  final FirebaseAuth auth;
+  final FirebaseFirestore firestore;
+  final ProviderRef ref;
+  StatusRepository({
+    required this.auth,
+    required this.firestore,
+    required this.ref,
+  });
+
+  void uploadStatus({
+    required String username,
+    required String profilePic,
+    required String phoneNumber,
+    required File statusImage,
+    required BuildContext context,
+  }) async {
+    try {
+      var statusId = const Uuid().v1();
+      String uid = auth.currentUser!.uid;
+      String imageurl = await ref
+          .read(commonFirebaseStorageRepositoryProvider)
+          .storeFileToFirebase(
+            '/status/$statusId$uid',
+            statusImage,
+          );
+      List<Contact> contacts = [];
+
+      if (await FlutterContacts.requestPermission()) {
+        contacts = await FlutterContacts.getContacts(withProperties: true);
+      }
+      List<String> uidWhoCanSee = [];
+
+      for (var i = 0; i < contacts.length; i++) {
+        var userDataFirebase = await firestore
+            .collection('users')
+            .where(
+              'phoneNumber',
+              isEqualTo: contacts[i].phones[0].number.replaceAll(
+                    ' ',
+                    '',
+                  ),
+            )
+            .get();
+
+        if (userDataFirebase.docs.isNotEmpty) {
+          var userData = UserModel.fromMap(userDataFirebase.docs[0].data());
+          uidWhoCanSee.add(userData.uid);
+        }
+      }
+      List<String> statusImageUrls = [];
+      var statusesSnapshot = await firestore
+          .collection('status')
+          .where(
+            'uid',
+            isEqualTo: auth.currentUser!.uid,
+          )
+          // .where('createdAt',isLessThan: DateTime.now().subtract(Duration(hours: 24)))
+          .get();
+
+      if (statusesSnapshot.docs.isNotEmpty) {
+        Status status = Status.fromMap(statusesSnapshot.docs[0].data());
+        statusImageUrls = status.photoUrl;
+        statusImageUrls.add(imageurl);
+        await firestore
+            .collection('status')
+            .doc(statusesSnapshot.docs[0].id)
+            .update(
+          {
+            'photoUrl': statusImageUrls,
+          },
+        );
+        return;
+      } else {
+        statusImageUrls = [imageurl];
+      }
+
+      Status status = Status(
+        uid: uid,
+        username: username,
+        phoneNumber: phoneNumber,
+        photoUrl: statusImageUrls,
+        createdAt: DateTime.now(),
+        profilePic: profilePic,
+        statusId: statusId,
+        whoCanSee: uidWhoCanSee,
+      );
+
+      await firestore.collection('status').doc(statusId).set(status.toMap());
+    } catch (e) {
+      showSnackBar(context: context, content: e.toString());
+    }
+  }
+}

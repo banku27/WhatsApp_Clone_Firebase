@@ -3,6 +3,25 @@
 
 A completely Responsive Whatsapp UI App- works on Android, iOS, Web & Desktop! Works as WhatsApp App on Smaller Screen Sizes and WhatsApp Web on Bigger Screen Sizes!
 
+# Features
+
+Phone Number Authentication
+1-1 Chatting with Contacts Only
+Group Chatting
+Text, Image, GIF, Audio(Recording), Video & Emoji Sharing
+Status Visible to Contacts Only and Disappears after 24 hours
+Video Calling
+Online/Offline Status
+Seen Message
+Replying to Messages
+Auto Scroll on New Messages
+
+# Tech Used
+
+Server: Firebase Auth, Firebase Storage, Firebase Firestore
+
+Client: Flutter, Riverpod
+
 # Screenshots
 
 <img src="https://user-images.githubusercontent.com/55456058/184604550-45838880-5281-4179-9ad3-de60f4150c3f.jpg" width="350" height="800">

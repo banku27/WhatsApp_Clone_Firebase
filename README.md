@@ -5,4 +5,4 @@ A completely Responsive Whatsapp UI App- works on Android, iOS, Web & Desktop! W
 
 # Screenshots
 
-<img src="![splash screen](https://user-images.githubusercontent.com/55456058/184604550-45838880-5281-4179-9ad3-de60f4150c3f.jpg)" width="500" height="300">
+<img src="![splash screen](https://user-images.githubusercontent.com/55456058/184604550-45838880-5281-4179-9ad3-de60f4150c3f.jpg)" width="350" height="800">

@@ -34,8 +34,8 @@ class _SelectContactsGroupState extends ConsumerState<SelectContactsGroup> {
   @override
   Widget build(BuildContext context) {
     return ref.watch(getContactsProvider).when(
-        data: (contactList) => Expanded(
-              child: ListView.builder(
+          data: (contactList) => Expanded(
+            child: ListView.builder(
                 itemCount: contactList.length,
                 itemBuilder: (context, index) {
                   final contact = contactList[index];
@@ -59,12 +59,12 @@ class _SelectContactsGroupState extends ConsumerState<SelectContactsGroup> {
                       ),
                     ),
                   );
-                },
-              ),
-            ),
-        error: (err, trace) => ErrorScreen(
-              error: err.toString(),
-            ),
-        loading: () => const Loader());
+                }),
+          ),
+          error: (err, trace) => ErrorScreen(
+            error: err.toString(),
+          ),
+          loading: () => const Loader(),
+        );
   }
 }

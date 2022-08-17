@@ -14,7 +14,12 @@ import 'package:whatsapp_ui/features/chat/widgets/sender_message_card.dart';
 
 class ChatList extends ConsumerStatefulWidget {
   final String recieverUserId;
-  const ChatList({Key? key, required this.recieverUserId}) : super(key: key);
+  final bool isGroupChat;
+  const ChatList({
+    Key? key,
+    required this.recieverUserId,
+    required this.isGroupChat,
+  }) : super(key: key);
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _ChatListState();
@@ -36,9 +41,9 @@ class _ChatListState extends ConsumerState<ChatList> {
   ) {
     ref.read(messageReplyProvider.state).update(
           (state) => MessageReply(
-            message: message,
-            isMe: isMe,
-            messageEnum: messageEnum,
+            message,
+            isMe,
+            messageEnum,
           ),
         );
   }
@@ -46,18 +51,23 @@ class _ChatListState extends ConsumerState<ChatList> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<Message>>(
-        stream:
-            ref.read(chatControllerProvider).chatStream(widget.recieverUserId),
+        stream: widget.isGroupChat
+            ? ref
+                .read(chatControllerProvider)
+                .groupChatStream(widget.recieverUserId)
+            : ref
+                .read(chatControllerProvider)
+                .chatStream(widget.recieverUserId),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Loader();
           }
-          // for automatic scrolling whenever new msgs comes
 
           SchedulerBinding.instance.addPostFrameCallback((_) {
             messageController
                 .jumpTo(messageController.position.maxScrollExtent);
           });
+
           return ListView.builder(
             controller: messageController,
             itemCount: snapshot.data!.length,
@@ -74,7 +84,6 @@ class _ChatListState extends ConsumerState<ChatList> {
                       messageData.messageId,
                     );
               }
-
               if (messageData.senderId ==
                   FirebaseAuth.instance.currentUser!.uid) {
                 return MyMessageCard(

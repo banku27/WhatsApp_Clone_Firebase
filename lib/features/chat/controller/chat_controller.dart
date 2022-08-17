@@ -8,6 +8,7 @@ import 'package:whatsapp_ui/features/auth/controller/auth_controller.dart';
 
 import 'package:whatsapp_ui/features/chat/repositories/chat_repository.dart';
 import 'package:whatsapp_ui/models/chat_contact_model.dart';
+import 'package:whatsapp_ui/models/group_model.dart';
 import 'package:whatsapp_ui/models/message.dart';
 
 final chatControllerProvider = Provider((ref) {
@@ -29,6 +30,10 @@ class ChatController {
 
   Stream<List<ChatContact>> chatContacts() {
     return chatRepository.getChatContacts();
+  }
+
+  Stream<List<Group>> chatGroups() {
+    return chatRepository.getChatGroups();
   }
 
   Stream<List<Message>> chatStream(String recieverUserId) {

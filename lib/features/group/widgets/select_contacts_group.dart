@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_contacts/contact.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_ui/common/widgets/error.dart';
 import 'package:whatsapp_ui/common/widgets/loader.dart';
-import 'package:whatsapp_ui/features/chat/widgets/contacts_list.dart';
+
 import 'package:whatsapp_ui/features/select_contacts/controller/select_contact_controller.dart';
+
+final selectedGroupContacts = StateProvider<List<Contact>>((ref) => []);
 
 class SelectContactsGroup extends ConsumerStatefulWidget {
   const SelectContactsGroup({Key? key}) : super(key: key);
@@ -14,6 +17,20 @@ class SelectContactsGroup extends ConsumerStatefulWidget {
 }
 
 class _SelectContactsGroupState extends ConsumerState<SelectContactsGroup> {
+  List<int> selectedContactsIndex = [];
+
+  void selectContact(int index, Contact contact) {
+    if (selectedContactsIndex.contains(index)) {
+      selectedContactsIndex.removeAt(index);
+    } else {
+      selectedContactsIndex.add(index);
+    }
+    setState(() {});
+    ref
+        .read(selectedGroupContacts.state)
+        .update((state) => [...state, contact]);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ref.watch(getContactsProvider).when(
@@ -23,7 +40,7 @@ class _SelectContactsGroupState extends ConsumerState<SelectContactsGroup> {
                 itemBuilder: (context, index) {
                   final contact = contactList[index];
                   return InkWell(
-                    // onTap: () => selectContact(index, contact),
+                    onTap: () => selectContact(index, contact),
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 8),
                       child: ListTile(
@@ -33,10 +50,12 @@ class _SelectContactsGroupState extends ConsumerState<SelectContactsGroup> {
                             fontSize: 18,
                           ),
                         ),
-                        leading: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.done),
-                        ),
+                        leading: selectedContactsIndex.contains(index)
+                            ? IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.done),
+                              )
+                            : null,
                       ),
                     ),
                   );

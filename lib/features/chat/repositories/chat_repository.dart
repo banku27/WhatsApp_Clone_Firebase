@@ -187,6 +187,7 @@ class ChatRepository {
     );
 
     if (isGroupChat) {
+      //groups -> groupid -> chat -> message
       await firestore
           .collection('groups')
           .doc(recieverUserId)
